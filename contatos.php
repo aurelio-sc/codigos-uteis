@@ -1,9 +1,4 @@
-    <?php 
-    //Run composer require league/csv:^9.0 to install the package
-    //Doc: https://csv.thephpleague.com/9.0/
-
-
-    use League\Csv\Reader;
+use League\Csv\Reader;
 	use League\Csv\Writer;
 	require 'vendor/league/csv/autoload.php';
 
@@ -28,7 +23,8 @@
 		'pagina_link',		
 		'assunto',
 		'receiver',
-		'insert_data'
+		'insert_data',
+		'arquivo'
 	];
 
 	$csv->insertOne($campos);
@@ -51,6 +47,14 @@
 				}
 			}
 		}
+
+		$contato_arquivo = \RGB\Contato\Arquivo::where('contato', $contato->id)->get()->first();
+		$contato_diretorio = $contato->diretorio;
+		if ($contato_arquivo) {
+			$entradas['arquivo'] = 'https://seusite.com.br/uploads/contato/contato/'. $contato_diretorio . $contato_arquivo->arquivo;
+		}
+
+		
 
 		$entradas_ordenadas = [];
 
